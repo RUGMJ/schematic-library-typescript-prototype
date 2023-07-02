@@ -1,6 +1,6 @@
-import Schematic from "Models/Schematic";
+import Schematic from "./Models/Schematic.js";
 import Post from "./Models/Post.js";
-import Comment from "Models/Comment";
+import Comment from "./Models/Comment.js";
 
 
 class NotFound extends Error {
@@ -13,6 +13,8 @@ class NotFound extends Error {
 const getPostById = async (id: String) => {
   const post = await Post.findById(id);
   if (!post) throw new NotFound();
+  await post.populate("comments");
+  await post.populate("schematic");
   return post;
 };
 
